@@ -1,0 +1,8 @@
+{
+  "domain": "uptime_kuma",
+  "name": "Uptime Kuma",
+  "version": "1.0.0",
+  "requirements": [],
+  "codeowners": ["@dein_github_username"],
+  "iot_class": "cloud_polling"
+}
