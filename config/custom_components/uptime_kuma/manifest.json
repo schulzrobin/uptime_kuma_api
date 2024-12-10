@@ -1,8 +1,8 @@
 {
-  "domain": "uptime_kuma",
-  "name": "Uptime Kuma",
+  "domain": "uptime_kuma_api",
+  "name": "Uptime Kuma API",
   "version": "1.0.0",
   "requirements": [],
-  "codeowners": ["@dein_github_username"],
+  "codeowners": ["@schulzrobin"],
   "iot_class": "cloud_polling"
 }
