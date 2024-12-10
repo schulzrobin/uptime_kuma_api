@@ -4,7 +4,7 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the Uptime Kuma integration."""
+    """Set up the Uptime Kuma API integration."""
     hass.data[DOMAIN] = {}
     return True
 
