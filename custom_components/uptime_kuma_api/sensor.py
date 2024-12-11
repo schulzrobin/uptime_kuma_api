@@ -1,29 +1,30 @@
-import requests
+import aiohttp
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.const import CONF_NAME
-
-from .const import DOMAIN, CONF_API_URL, CONF_API_TOKEN
-
-def fetch_monitors(api_url, api_token):
-    """Fetch monitor data from the Uptime Kuma API."""
-    headers = {"Authorization": f"Bearer {api_token}"}
-    response = requests.get(f"{api_url}", headers=headers)
-    response.raise_for_status()
-    return response.json()
+from .const import DOMAIN
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up Uptime Kuma sensors based on a config entry."""
-    api_url = config_entry.data[CONF_API_URL]
-    api_token = config_entry.data[CONF_API_TOKEN]
+    api_url = config_entry.data["api_url"]
+    api_token = config_entry.data["api_token"]
 
     # Fetch monitor data
-    monitors = fetch_monitors(api_url, api_token)
+    monitors = await fetch_monitors(hass, api_url, api_token)
 
     # Create a sensor for each monitor
     entities = []
     for monitor in monitors:
         entities.append(UptimeKumaSensor(monitor))
     async_add_entities(entities, update_before_add=True)
+
+async def fetch_monitors(hass, api_url, api_token):
+    """Fetch monitor data from the Uptime Kuma API."""
+    headers = {"Authorization": f"Bearer {api_token}"}
+    async with hass.helpers.aiohttp_client.async_get_clientsession().get(
+        api_url, headers=headers
+    ) as response:
+        if response.status == 200:
+            return await response.json()
+    return []
 
 class UptimeKumaSensor(SensorEntity):
     """Representation of an Uptime Kuma monitor as a sensor."""
