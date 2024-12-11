@@ -19,7 +19,7 @@ class UptimeKumaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             api_token = user_input[CONF_API_TOKEN]
 
             if await self._test_api(api_url, api_token):
-                return self.async_create_entry(title="Uptime Kuma", data=user_input)
+                return self.async_create_entry(title="Uptime Kuma API", data=user_input)
             else:
                 errors["base"] = "cannot_connect"
 
